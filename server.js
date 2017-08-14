@@ -2,13 +2,12 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
-app.use(express.static(path.join(__dirname, 'app')));
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 app.get('/', (request, response) => {
-  // We don't need to explicitly use this handler or send a response
-  // because Express is using the default path of the static assets
-  // to serve this content
-  response.status(200).send('hello world');
+
+  response.status(200).sendFile(path.join(__dirname, 'public/index.html'))
 });
 
 app.use(function (req, res, next) {
