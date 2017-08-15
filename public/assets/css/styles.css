@@ -1,0 +1,26 @@
+/* Color Palette Variables */
+
+
+/*$background: #E5F3F2;
+$primary-accent: #00A79D;
+$secondary-accent: #045E55;
+$primary-text: #6D6E71;
+$secondary-text: #939598;
+$btn-text: #FFF;
+$divider: #D1D3D4;*/
+
+html {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+.add-folder-container,
+.add-bookmark-container {
+  display: none;
+}

@@ -7,9 +7,33 @@
 </head>
 
 <body>
-  <h1>Jet Fuel! Fueling all the jets...</h1>
-</body>
+  <div>
+    <h1>Jet Fuel! Fueling all the jets...</h1>
+  </div>
+  <div>
+    <button class="btn-add-folder">Add Folder</button>
+    <button class="btn-add-bookmark">Add Bookmark</button>
+  </div>
+  <div class="add-folder-container">
+    <form class="add-folder-form">
+      <label>Folder Name: <input type="text" value="" placeholder="Folder Name" /></label>
+      <label>Description: <input type="text" value="" placeholder="Description" /></label>
+      <button type="submit">Save</button>
+    </form>
+  </div>
+  <div class="add-bookmark-container">
+    <form class="add-bookmark-form">
+      <label>URL: <input type="text" value="" placeholder="Folder Name" /></label>
+      <label>Folder:
+        <select>
+          <option value="">Select a folder to save bookmark to</option>
+        </select></label>
+      <button type="submit">Save</button>
+    </form>
+  </div>
 
-<script type="text/javascript" src="/assets/js/script.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script type="text/javascript" src="/assets/js/script.js"></script>
+</body>
 
 </html>
