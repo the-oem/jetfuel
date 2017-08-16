@@ -1,16 +1,16 @@
 
 exports.up = function (knex, Promise) {
   return Promise.all([
-    knex.schema.createTable('folder', (table) => {
+    knex.schema.createTable('folders', (table) => {
       table.increments('id').primary();
       table.string('name');
       table.string('description');
       table.timestamps(true, true);
     }),
-    knex.schema.createTable('link', (table) => {
+    knex.schema.createTable('links', (table) => {
       table.increments('id').primary();
       table.integer('folder_id').unsigned();
-      table.foreign('folder_id').references('folder.id');
+      table.foreign('folder_id').references('folders.id');
       table.string('url');
       table.string('short_url');
       table.timestamps(true, true);
@@ -20,7 +20,7 @@ exports.up = function (knex, Promise) {
 
 exports.down = function (knex, Promise) {
   return Promise.all([
-    knex.schema.dropTable('folder'),
-    knex.schema.dropTable('link'),
+    knex.schema.dropTable('links'),
+    knex.schema.dropTable('folders'),
   ]);
 };
