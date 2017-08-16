@@ -22,5 +22,5 @@ html {
 
 .add-folder-container,
 .add-bookmark-container {
-  display: none;
+  /*display: none;*/
 }
