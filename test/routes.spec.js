@@ -6,6 +6,22 @@ const chaiHttp = require('chai-http');
 const server = require('../server');
 const folders = require('./folders');
 
+var knex = require('knex')({
+  client: 'pg',
+  connection: {
+    host : '127.0.0.1',
+    user : 'jc',
+    password : '',
+    database : 'jetfueltest'
+  }
+});
+
+var pg = require('knex')({
+  client: 'pg',
+  connection: process.env.DATABASE_URL || 'postgres://localhost/jetfueltest',
+  searchPath: 'knex,public'
+});
+
 chai.use(chaiHttp);
 
 describe('Client Routes', () => {
