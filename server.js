@@ -14,30 +14,60 @@ app.use(bodyParser.json());
 
 app.locals.title = 'Jet Fuel';
 
-app.get('/', (request, response) => {
-  response.status(200).sendFile(path.join(__dirname, 'public/index.html'))
+app.get('/', (req, res) => {
+  res.status(200).sendFile(path.join(__dirname, 'public/index.html'))
 });
 
-app.get('/api/v1/folders', (request, response) => {
-  database('folders').select()
-    .then((folders) => response.status(200).json(folders))
-    .catch((error) => response.status(500).json({ error }))
+app.get('/api/v1/folders', (req, res) => {
+  database('folders').select().orderByRaw('UPPER(name) ASC NULLS LAST')
+    .then((folders) => res.status(200).json(folders))
+    .catch((error) => res.status(500).json({ error }))
 })
 
-app.post('/api/v1/folders', (request, response) => {
-  const { name, description } = request.body;
+app.post('/api/v1/folders', (req, res) => {
+  const { name, description } = req.body;
 
   if (!name) {
-    return response.status(422).send({ error: `Expected format: { name: <String> (required), description: <String> (optional) }. You're missing a required property.` });
+    return res.status(422).send({ error: `Missing required parameter of 'name'` });
   }
 
-  database('folders').insert(request.body, '*')
-    .then(folder => response.status(201).json({
+  database('folders').insert(req.body, '*')
+    .then(folder => res.status(201).json({
       status: 'success',
       message: 'New folder created',
       id: folder[0],
     }))
-    .catch(error => response.status(500).json({ error }));
+    .catch(error => res.status(500).json({ error }));
+})
+
+app.get('/api/v1/folders/:folder_id/links', (req, res) => {
+  database('links').where('folder_id', req.params.folder_id).select()
+    .then(links => links.length ? res.status(200).json(links) : res.status(404).json({ error: `No links have been added to this folder yet.` }))
+    .catch(error => res.status(500).json({ error }));
+})
+
+app.get('/api/v1/links', (req, res) => {
+  database('links').select().orderBy('id', 'DESC')
+    .then((links) => res.status(200).json(links))
+    .catch((error) => res.status(500).json({ error }))
+})
+
+app.post('/api/v1/links', (req, res) => {
+  const newLink = req.body;
+  console.log(req.body);
+  for (let requiredParameter of ['url', 'short_url', 'folder_id']) {
+    if (!newLink[requiredParameter]) {
+      return res.status(422).json({ error: `Missing required parameter of ${requiredParameter}` })
+    }
+  }
+
+  database('links').insert(req.body, '*')
+    .then(link => res.status(201).json({
+      status: 'success',
+      message: 'New link created',
+      id: link[0],
+    }))
+    .catch(error => res.status(500).json({ error }));
 })
 
 app.use(function (req, res, next) {
