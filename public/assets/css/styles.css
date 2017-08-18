@@ -20,7 +20,6 @@ html {
   box-sizing: inherit;
 }
 
-.add-folder-container,
-.add-bookmark-container {
-  /*display: none;*/
+.hide {
+  display: none;
 }

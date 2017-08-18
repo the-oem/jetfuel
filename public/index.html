@@ -12,21 +12,21 @@
   </div>
   <div>
     <button class="btn-add-folder">Add Folder</button>
-    <button class="btn-add-bookmark">Add Bookmark</button>
+    <button class="btn-add-link">Add Link</button>
   </div>
-  <div class="add-folder-container">
-    <form class="add-folder-form">
+  <div class="add-folder-container hide" id="addFolderContainer">
+    <form class="add-folder-form" id="addFolderForm">
       <label>Folder Name: <input type="text" value="" placeholder="Folder Name" id="inputFolderName"/></label>
       <label>Description: <input type="text" value="" placeholder="Description" id="inputFolderDesc"/></label>
       <button type="submit">Save</button>
     </form>
   </div>
-  <div class="add-bookmark-container">
-    <form class="add-bookmark-form">
-      <label>URL: <input type="text" value="" placeholder="Folder Name" /></label>
+  <div class="add-link-container hide" id="addLinkContainer">
+    <form class="add-link-form">
+      <label>URL: <input type="text" value="" placeholder="Folder Name" class="input-link-url" id="inputLinkUrl"/></label>
       <label>Folder:
-        <select>
-          <option value="">Select a folder to save bookmark to</option>
+        <select class="input-link-folder" id="inputLinkFolder">
+          <option value="">--- Select Parent Folder ---</option>
         </select></label>
       <button type="submit">Save</button>
     </form>
