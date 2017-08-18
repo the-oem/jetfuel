@@ -77,3 +77,5 @@ app.use(function (req, res, next) {
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on port ${app.get('port')}`);
 })
+
+module.exports = app;

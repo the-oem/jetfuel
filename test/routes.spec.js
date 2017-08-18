@@ -1,6 +1,7 @@
 const chai = require('chai');
 const should = chai.should();
-const expect = chai.expect();
+// const expect = chai.expect();
+const expect = require('chai').expect;
 const chaiHttp = require('chai-http');
 const server = require('../server');
 const folders = require('./folders');
@@ -12,7 +13,7 @@ describe('Client Routes', () => {
     chai.request(server)
       .get('/')
       .end((err, response) => {
-        expect(2).toEqual(2);
+        expect(2).to.equal(2);
       })
   })
 
