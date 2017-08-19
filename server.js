@@ -20,7 +20,10 @@ app.get('/api/v1/folders', (req, res) => {
       status: 'success',
       data: folders
     }))
-    .catch((error) => res.status(500).json({ error }))
+    .catch((error) => res.status(500).json({
+      status: 'error',
+      data: error
+    }))
 })
 
 app.post('/api/v1/folders', (req, res) => {
@@ -33,10 +36,13 @@ app.post('/api/v1/folders', (req, res) => {
   knex('folders').insert(req.body, '*')
     .then(folder => res.status(201).json({
       status: 'success',
-      message: 'New folder created',
-      id: folder[0],
+      message: 'New folder successfully created.',
+      data: folder[0],
     }))
-    .catch(error => res.status(500).json({ error }));
+    .catch(error => res.status(500).json({
+      status: 'error',
+      data: error
+    }));
 })
 
 app.get('/api/v1/folders/:id', (req, res) => {
@@ -44,38 +50,61 @@ app.get('/api/v1/folders/:id', (req, res) => {
   .then(folder => folder.length ? res.status(200).json({
     status: 'success',
     data: folder
-  }) : res.status(404).json({ error: `That folder does not exist.` }))
-  .catch(error => res.status(500).json({ error }));
+  }) : res.status(404).json({
+    error: `That folder does not exist.`
+  }))
+  .catch(error => res.status(500).json({
+    status: 'error',
+    data: error
+  }));
 })
 
 app.get('/api/v1/folders/:folder_id/links', (req, res) => {
-  knex('links').where('folder_id', req.params.folder_id).select()
-    .then(links => links.length ? res.status(200).json(links) : res.status(404).json({ error: `No links have been added to this folder yet.` }))
-    .catch(error => res.status(500).json({ error }));
+  knex('links').where('folder_id', req.params.folder_id).select().orderBy('id', 'DESC')
+    .then(links => links.length ? res.status(200).json({
+      status: 'success',
+      data: links
+    }) : res.status(404).json({
+      error: `No links have been added to this folder yet.`
+    }))
+    .catch(error => res.status(500).json({
+      status: 'error',
+      data: error
+    }));
 })
 
 app.get('/api/v1/links', (req, res) => {
   knex('links').select().orderBy('id', 'DESC')
-    .then((links) => res.status(200).json(links))
-    .catch((error) => res.status(500).json({ error }))
+    .then((links) => res.status(200).json({
+      status: 'success',
+      data: links
+    }))
+    .catch((error) => res.status(500).json({
+      status: 'error',
+      data: error
+    }))
 })
 
 app.post('/api/v1/links', (req, res) => {
   const newLink = req.body;
-  console.log(req.body);
   for (let requiredParameter of ['url', 'short_url', 'folder_id']) {
     if (!newLink[requiredParameter]) {
-      return res.status(422).json({ error: `Missing required parameter of ${requiredParameter}` })
+      return res.status(422).json({
+        error: `Missing required parameter of ${requiredParameter}`
+      })
     }
   }
 
   knex('links').insert(req.body, '*')
     .then(link => res.status(201).json({
       status: 'success',
-      message: 'New link created',
-      id: link[0],
+      message: 'New link successfully created.',
+      data: link[0],
     }))
-    .catch(error => res.status(500).json({ error }));
+    .catch(error => res.status(500).json({
+      status: 'error',
+      data: error
+    }));
 })
 
 app.use(function (req, res, next) {
