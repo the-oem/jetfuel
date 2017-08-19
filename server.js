@@ -1,14 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const knex = require('./server/db/knex');
+const knex = require('./src/server/db/knex');
 const app = express();
 const path = require('path');
-
-// DATABASE CONFIGURATION
-// const environment = process.env.NODE_ENV || 'development';
-// const configuration = require('./knexfile')[environment];
-// const knex = require('knex')(configuration);
-// console.log('ENV', environment);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('port', process.env.PORT || 3000);
@@ -21,7 +15,6 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api/v1/folders', (req, res) => {
-  console.log('NODE_ENV', process.env.NODE_ENV);
   knex('folders').select().orderByRaw('UPPER(name) ASC NULLS LAST')
     .then((folders) => res.status(200).json({
       status: 'success',
@@ -44,6 +37,15 @@ app.post('/api/v1/folders', (req, res) => {
       id: folder[0],
     }))
     .catch(error => res.status(500).json({ error }));
+})
+
+app.get('/api/v1/folders/:id', (req, res) => {
+  knex('folders').where('id', req.params.id).select()
+  .then(folder => folder.length ? res.status(200).json({
+    status: 'success',
+    data: folder
+  }) : res.status(404).json({ error: `That folder does not exist.` }))
+  .catch(error => res.status(500).json({ error }));
 })
 
 app.get('/api/v1/folders/:folder_id/links', (req, res) => {
