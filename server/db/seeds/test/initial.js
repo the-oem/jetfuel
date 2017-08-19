@@ -4,7 +4,7 @@ exports.seed = function (knex, Promise) {
     .then(() => {
       return Promise.all([
         knex('folders').insert({
-          name: 'Recipes',
+          name: 'Recipes, yo!',
           description: 'My favorite recipes',
         }, 'id')
         .then((folder) => {

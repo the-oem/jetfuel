@@ -1,12 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const knex = require('./server/db/knex');
 const app = express();
 const path = require('path');
 
 // DATABASE CONFIGURATION
-const environment = process.env.NODE_ENV || 'development';
-const configuration = require('./knexfile')[environment];
-const database = require('knex')(configuration);
+// const environment = process.env.NODE_ENV || 'development';
+// const configuration = require('./knexfile')[environment];
+// const knex = require('knex')(configuration);
+// console.log('ENV', environment);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('port', process.env.PORT || 3000);
@@ -19,8 +21,12 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api/v1/folders', (req, res) => {
-  database('folders').select().orderByRaw('UPPER(name) ASC NULLS LAST')
-    .then((folders) => res.status(200).json(folders))
+  console.log('NODE_ENV', process.env.NODE_ENV);
+  knex('folders').select().orderByRaw('UPPER(name) ASC NULLS LAST')
+    .then((folders) => res.status(200).json({
+      status: 'success',
+      data: folders
+    }))
     .catch((error) => res.status(500).json({ error }))
 })
 
@@ -31,7 +37,7 @@ app.post('/api/v1/folders', (req, res) => {
     return res.status(422).send({ error: `Missing required parameter of 'name'` });
   }
 
-  database('folders').insert(req.body, '*')
+  knex('folders').insert(req.body, '*')
     .then(folder => res.status(201).json({
       status: 'success',
       message: 'New folder created',
@@ -41,13 +47,13 @@ app.post('/api/v1/folders', (req, res) => {
 })
 
 app.get('/api/v1/folders/:folder_id/links', (req, res) => {
-  database('links').where('folder_id', req.params.folder_id).select()
+  knex('links').where('folder_id', req.params.folder_id).select()
     .then(links => links.length ? res.status(200).json(links) : res.status(404).json({ error: `No links have been added to this folder yet.` }))
     .catch(error => res.status(500).json({ error }));
 })
 
 app.get('/api/v1/links', (req, res) => {
-  database('links').select().orderBy('id', 'DESC')
+  knex('links').select().orderBy('id', 'DESC')
     .then((links) => res.status(200).json(links))
     .catch((error) => res.status(500).json({ error }))
 })
@@ -61,7 +67,7 @@ app.post('/api/v1/links', (req, res) => {
     }
   }
 
-  database('links').insert(req.body, '*')
+  knex('links').insert(req.body, '*')
     .then(link => res.status(201).json({
       status: 'success',
       message: 'New link created',

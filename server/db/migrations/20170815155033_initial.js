@@ -1,5 +1,6 @@
 
 exports.up = function (knex, Promise) {
+  console.log('migration latest invoked');
   return Promise.all([
     knex.schema.createTable('folders', (table) => {
       table.increments('id').primary();
@@ -19,6 +20,7 @@ exports.up = function (knex, Promise) {
 };
 
 exports.down = function (knex, Promise) {
+  console.log('migration rollback invoked');
   return Promise.all([
     knex.schema.dropTable('links'),
     knex.schema.dropTable('folders'),
