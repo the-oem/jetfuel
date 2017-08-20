@@ -7,33 +7,34 @@
 </head>
 
 <body>
-  <div>
-    <h1>Jet Fuel! Fueling all the jets...AGAIN</h1>
-  </div>
-  <div>
-    <button class="btn-add-folder">Add Folder</button>
-    <button class="btn-add-link">Add Link</button>
-  </div>
-  <div class="add-folder-container hide" id="addFolderContainer">
-    <form class="add-folder-form" id="addFolderForm">
-      <label>Folder Name: <input type="text" value="" placeholder="Folder Name" id="inputFolderName"/></label>
-      <label>Description: <input type="text" value="" placeholder="Description" id="inputFolderDesc"/></label>
-      <button type="submit">Save</button>
-    </form>
-  </div>
-  <div class="add-link-container hide" id="addLinkContainer">
-    <form class="add-link-form">
-      <label>URL: <input type="text" value="" placeholder="Folder Name" class="input-link-url" id="inputLinkUrl"/></label>
-      <label>Folder:
+  <main class="main">
+    <div class="header">
+      <h1>Jet Fuel! Fueling all the jets...AGAIN</h1>
+    </div>
+    <div class="btn-container">
+      <button class="btn-add-folder">Add Folder</button>
+      <button class="btn-add-link">Add Link</button>
+    </div>
+    <div class="add-folder-container hide" id="addFolderContainer">
+      <form class="add-folder-form" id="addFolderForm">
+        <input type="text" value="" placeholder="Folder Name" id="inputFolderName" />
+        <input type="text" value="" placeholder="Description" id="inputFolderDesc" />
+        <button type="submit">Save</button>
+      </form>
+    </div>
+    <div class="add-link-container hide" id="addLinkContainer">
+      <form class="add-link-form">
+        <input type="text" value="" placeholder="URL" class="input-link-url" id="inputLinkUrl" />
         <select class="input-link-folder" id="inputLinkFolder">
-          <option value="">--- Select Parent Folder ---</option>
-        </select></label>
-      <button type="submit">Save</button>
-    </form>
-  </div>
-  <div class="folder-container">
+            <option value="">Select Folder</option>
+          </select>
+        <button type="submit">Save</button>
+      </form>
+    </div>
+    <div class="folder-container">
 
-  </div>
+    </div>
+  </main>
 
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> -->
   <script type="text/javascript" src="/assets/js/jquery.js"></script>
