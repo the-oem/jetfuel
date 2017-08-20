@@ -6,7 +6,9 @@ const $addFolderContainer = $('.add-folder-container');
 const $addLinkContainer = $('.add-link-container');
 const $folderForm = $('.add-folder-form');
 const $linkForm = $('.add-link-form');
+
 const errorMessageContainers = ['folderNameErrorMessage', 'urlErrorMessage', 'urlFolderErrorMessage'];
+const urlChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
 let folderArray = [];
 
 let addFolderVisible = false;
@@ -32,7 +34,7 @@ class Folder {
 class Link {
   constructor(url, folderId) {
     this.url = url;
-    this.short_url = url; // TODO add function to build out a unique short URL
+    this.short_url = generateShortUrl();
     this.folder_id = folderId
   }
 }
@@ -112,12 +114,21 @@ const checkUrl = (url) => {
   return url.search(/(^|\s)((https?:\/\/){1}[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/i) != -1;
 }
 
+const generateShortUrl = () => {
+  let result = '';
+  for (let i = 6; i > 0; --i) {
+    result += urlChars[Math.floor(Math.random() * urlChars.length)]
+  }
+  return result;
+}
+
 const addLink = () => {
   event.preventDefault();
   const newLink = new Link(
     $('#inputLinkUrl').val(),
     $('#inputLinkFolder').val()
   );
+  console.log(newLink);
   if ($('#inputLinkFolder').val() === '') {
     addErrorMessage('A folder must be selected.', '#urlFolderErrorMessage');
     return;
