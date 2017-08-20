@@ -1,11 +1,12 @@
 'use strict';
 
-var $addFolderBtn = $('.btn-add-folder');
-var $addLinkBtn = $('.btn-add-link');
-var $addFolderContainer = $('.add-folder-container');
-var $addLinkContainer = $('.add-link-container');
-var $folderForm = $('.add-folder-form');
-var $linkForm = $('.add-link-form');
+const $addFolderBtn = $('.btn-add-folder');
+const $addLinkBtn = $('.btn-add-link');
+const $addFolderContainer = $('.add-folder-container');
+const $addLinkContainer = $('.add-link-container');
+const $folderForm = $('.add-folder-form');
+const $linkForm = $('.add-link-form');
+const errorMessageContainers = ['folderNameErrorMessage', 'urlErrorMessage', 'urlFolderErrorMessage'];
 let folderArray = [];
 
 let addFolderVisible = false;
@@ -97,7 +98,17 @@ const loadLinksInDom = (folderId, links) => {
       </div>
     `)
   }
-  // $(`#${folderId}`).find('.folder-links').toggle();
+}
+
+const addErrorMessage = (errorMessage, location) => {
+  $(location).text(errorMessage);
+  console.log(errorMessage);
+}
+
+const clearErrorMessages = () => {
+  for (let i = 0; i < errorMessageContainers.length; i++) {
+    $(`#${errorMessageContainers[i]}`).text('');
+  }
 }
 
 const addLink = () => {
@@ -108,6 +119,7 @@ const addLink = () => {
   );
   apiAddLink(newLink);
   $linkForm[0].reset();
+  clearErrorMessages();
 }
 
 const addFolder = () => {
@@ -116,8 +128,14 @@ const addFolder = () => {
     $('#inputFolderName').val(),
     $('#inputFolderDesc').val()
   );
+  const exists = folderArray.find(folder => folder.name.toUpperCase() === $('#inputFolderName').val().toUpperCase());
+  if (exists) {
+    addErrorMessage('A folder with that name already exists', '#folderNameErrorMessage');
+    return;
+  }
   apiAddFolder(newFolder);
   $folderForm[0].reset();
+  clearErrorMessages();
 }
 
 const apiAddFolder = (folder) => {

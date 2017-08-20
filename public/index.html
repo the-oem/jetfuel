@@ -18,6 +18,7 @@
     <div class="add-folder-container hide" id="addFolderContainer">
       <form class="add-folder-form" id="addFolderForm">
         <input type="text" value="" placeholder="Folder Name" id="inputFolderName" />
+        <span class="error-message" id="folderNameErrorMessage"></span>
         <input type="text" value="" placeholder="Description" id="inputFolderDesc" />
         <button type="submit">Save</button>
       </form>
@@ -25,9 +26,11 @@
     <div class="add-link-container hide" id="addLinkContainer">
       <form class="add-link-form">
         <input type="text" value="" placeholder="URL" class="input-link-url" id="inputLinkUrl" />
+        <span class="error-message" id="urlErrorMessage">sdfsdf</span>
         <select class="input-link-folder" id="inputLinkFolder">
-            <option value="">Select Folder</option>
-          </select>
+          <option value="">Select Folder</option>
+        </select>
+        <span class="error-message" id="urlFolderErrorMessage"></span>
         <button type="submit">Save</button>
       </form>
     </div>
