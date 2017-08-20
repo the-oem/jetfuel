@@ -108,6 +108,10 @@ const clearErrorMessages = () => {
   }
 }
 
+const checkUrl = (url) => {
+  return url.search(/(^|\s)((https?:\/\/){1}[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/i) != -1;
+}
+
 const addLink = () => {
   event.preventDefault();
   const newLink = new Link(
@@ -116,6 +120,10 @@ const addLink = () => {
   );
   if ($('#inputLinkFolder').val() === '') {
     addErrorMessage('A folder must be selected.', '#urlFolderErrorMessage');
+    return;
+  }
+  if (!checkUrl($('#inputLinkUrl').val())) {
+    addErrorMessage('Must enter a valid URL (including http/https).', '#urlErrorMessage');
     return;
   }
   apiAddLink(newLink);
