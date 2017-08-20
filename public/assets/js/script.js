@@ -59,7 +59,7 @@ const buildFoldersInputSelect = (folders) => {
 const loadFoldersInDom = (folders) => {
   $('.folder-container').empty();
   for (let i = 0; i < folders.length; i++) {
-    $('.folder-container').append(`<div class="folder">Folder name: ${folders[i].name}, folder description: ${folders[i].description}</div>`)
+    $('.folder-container').append(`<div class="folder" id="${folders[i].id}">Folder name: ${folders[i].name}, folder description: ${folders[i].description}</div>`)
   }
 }
 
