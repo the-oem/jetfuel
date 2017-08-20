@@ -9,8 +9,8 @@ exports.seed = function (knex, Promise) {
         }, 'id')
         .then((folder) => {
           return knex('links').insert([
-            { folder_id: folder[0], url: 'http://www.recipe.com', short_url: 'http://www.jetfuel.com/asdf' },
-            { folder_id: folder[0], url: 'http://www.bestrecipes.com', short_url: 'http://www.jetfuel.com/qwerty' },
+            { folder_id: folder[0], url: 'http://www.recipe.com', short_url: 'asdf' },
+            { folder_id: folder[0], url: 'http://allrecipes.com', short_url: 'qwerty' },
           ]);
         })
         .then(() => console.log('Seeding complete!'))

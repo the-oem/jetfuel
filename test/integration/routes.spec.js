@@ -119,8 +119,8 @@ describe('Testing API Routes', () => {
           'id', 'url', 'short_url', 'folder_id', 'created_at', 'updated_at'
         );
         res.body.data[0].folder_id.should.eql(1);
-        res.body.data[0].url.should.eql('http://www.bestrecipes.com');
-        res.body.data[0].short_url.should.eql('http://www.jetfuel.com/qwerty');
+        res.body.data[0].url.should.eql('http://allrecipes.com');
+        res.body.data[0].short_url.should.eql('qwerty');
         done();
       });
     });
@@ -140,8 +140,8 @@ describe('Testing API Routes', () => {
           'id', 'url', 'short_url', 'folder_id', 'created_at', 'updated_at'
         );
         res.body.data[0].folder_id.should.eql(1);
-        res.body.data[0].url.should.eql('http://www.bestrecipes.com');
-        res.body.data[0].short_url.should.eql('http://www.jetfuel.com/qwerty');
+        res.body.data[0].url.should.eql('http://allrecipes.com');
+        res.body.data[0].short_url.should.eql('qwerty');
         done();
       });
     });
@@ -167,7 +167,7 @@ describe('Testing API Routes', () => {
       .post('/api/v1/links')
       .send({
         url: 'http://www.google.com',
-        short_url: 'http://www.jetfuel.com/goog',
+        short_url: 'goog',
         folder_id: 1
       })
       .end((err, res) => {
@@ -180,7 +180,36 @@ describe('Testing API Routes', () => {
         );
         res.body.data.folder_id.should.eql(1);
         res.body.data.url.should.eql('http://www.google.com');
-        res.body.data.short_url.should.eql('http://www.jetfuel.com/goog');
+        res.body.data.short_url.should.eql('goog');
+        done();
+      })
+    })
+  })
+
+  describe('GET /short_url', () => {
+    it('should respond with a redirect to the full URL', (done) => {
+      chai.request(server)
+      .get('/qwerty')
+      .end((err, res) => {
+        should.not.exist(err);
+        res.status.should.eql(200);
+        res.type.should.eql('text/html');
+        res.redirects.length.should.eql(1);
+        res.redirects[0].should.eql('http://allrecipes.com/');
+        done();
+      })
+    })
+
+    it('should respond with a 404 and an error message indicating the short_url does not exist', (done) => {
+      chai.request(server)
+      .get('/qwrty')
+      .end((err, res) => {
+        should.exist(err);
+        console.log(res);
+        res.status.should.eql(404);
+        res.type.should.eql('application/json');
+        res.body.should.include.keys('error');
+        res.body.error.should.eql('The short url \'qwrty\' does not exist.');
         done();
       })
     })
