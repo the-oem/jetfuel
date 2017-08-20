@@ -43,8 +43,6 @@ const loadFolders = (folders) => {
   loadFoldersInDom(sortedFolders);
 }
 
-
-
 const sortFolders = (folders) => {
   return folders.sort((a, b) => {
     return (a.name.toUpperCase() > b.name.toUpperCase()) ? 1 : ((b.name.toUpperCase() > a.name.toUpperCase()) ? -1 : 0);
@@ -102,7 +100,6 @@ const loadLinksInDom = (folderId, links) => {
 
 const addErrorMessage = (errorMessage, location) => {
   $(location).text(errorMessage);
-  console.log(errorMessage);
 }
 
 const clearErrorMessages = () => {
@@ -117,6 +114,10 @@ const addLink = () => {
     $('#inputLinkUrl').val(),
     $('#inputLinkFolder').val()
   );
+  if ($('#inputLinkFolder').val() === '') {
+    addErrorMessage('A folder must be selected.', '#urlFolderErrorMessage');
+    return;
+  }
   apiAddLink(newLink);
   $linkForm[0].reset();
   clearErrorMessages();
