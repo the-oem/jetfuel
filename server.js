@@ -107,6 +107,19 @@ app.post('/api/v1/links', (req, res) => {
     }));
 })
 
+app.get('/:short_url', (req, res) => {
+  knex('links').where('short_url', req.params.short_url).select('url')
+  .then(link => link.length
+    ? res.redirect(link[0].url)
+    : res.status(404).json({
+    error: `The short url '${req.params.short_url}' does not exist.`
+  }))
+  .catch(error => res.status(500).json({
+    status: 'error',
+    data: error
+  }));
+})
+
 app.use(function (req, res, next) {
   res.status(404).sendFile(path.join(__dirname, 'public/404.html'))
 })
