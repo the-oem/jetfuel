@@ -110,15 +110,15 @@ select::-webkit-input-placeholder {
 
 #btn-sort-desc,
 #btn-sort-asc {
+  width: 25px;
+  height: 25px;
+  margin: 0 5px;
+  cursor: pointer;
+  text-align: right;
   border: none;
   background-color: transparent;
   background-position: center;
   background-size: cover;
-  height: 25px;
-  width: 25px;
-  cursor: pointer;
-  text-align: right;
-  margin: 0 5px;
 }
 
 .btn-save {
@@ -178,10 +178,9 @@ select::-webkit-input-placeholder {
   margin: 2px;
   padding: 5px;
   text-align: right;
+  color: #536767;
   border-radius: 5px;
   background-color: #F6F6F6;
-  color: #536767;
-  /*height: 0;*/
 }
 
 .folder-name {
