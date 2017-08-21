@@ -15,7 +15,7 @@ exports.up = function (knex, Promise) {
       table.string('url');
       table.string('short_url');
       table.timestamps(true, true);
-    }),
+    })
   ]);
 };
 
@@ -23,6 +23,6 @@ exports.down = function (knex, Promise) {
   console.log('migration rollback invoked');
   return Promise.all([
     knex.schema.dropTable('links'),
-    knex.schema.dropTable('folders'),
+    knex.schema.dropTable('folders')
   ]);
 };

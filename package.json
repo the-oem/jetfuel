@@ -24,6 +24,7 @@
   },
   "scripts": {
     "test": "mocha test/integration/*",
+    "lint": "./node_modules/.bin/eslint ./",
     "start": "nodemon server.js"
   },
   "repository": {
