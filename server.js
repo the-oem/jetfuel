@@ -1,19 +1,19 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const knex = require('./src/server/db/knex')
+const express = require('express');
+const bodyParser = require('body-parser');
+const knex = require('./src/server/db/knex');
 
-const app = express()
-const path = require('path')
+const app = express();
+const path = require('path');
 
-app.use(express.static(path.join(__dirname, 'public')))
-app.set('port', process.env.PORT || 3000)
-app.use(bodyParser.json())
+app.use(express.static(path.join(__dirname, 'public')));
+app.set('port', process.env.PORT || 3000);
+app.use(bodyParser.json());
 
-app.locals.title = 'Jet Fuel'
+app.locals.title = 'Jet Fuel';
 
 app.get('/', (req, res) => {
-  res.status(200).sendFile(path.join(__dirname, 'public/index.html'))
-})
+  res.status(200).sendFile(path.join(__dirname, 'public/index.html'));
+});
 
 app.get('/api/v1/folders', (req, res) => {
   knex('folders').select().orderByRaw('UPPER(name) ASC NULLS LAST')
@@ -24,14 +24,14 @@ app.get('/api/v1/folders', (req, res) => {
     .catch(error => res.status(500).json({
       status: 'error',
       data: error
-    }))
-})
+    }));
+});
 
 app.post('/api/v1/folders', (req, res) => {
-  const { name } = req.body
+  const { name } = req.body;
 
   if (!name) {
-    return res.status(422).send({ error: 'Missing required parameter of \'name\'' })
+    return res.status(422).send({ error: 'Missing required parameter of \'name\'' });
   }
 
   knex('folders').insert(req.body, '*')
@@ -43,8 +43,8 @@ app.post('/api/v1/folders', (req, res) => {
     .catch(error => res.status(500).json({
       status: 'error',
       data: error
-    }))
-})
+    }));
+});
 
 app.get('/api/v1/folders/:id', (req, res) => {
   knex('folders').where('id', req.params.id).select()
@@ -57,11 +57,11 @@ app.get('/api/v1/folders/:id', (req, res) => {
     .catch(error => res.status(500).json({
       status: 'error',
       data: error
-    }))
-})
+    }));
+});
 
 app.get('/api/v1/folders/:folder_id/links', (req, res) => {
-  knex('links').where('folder_id', req.params.folder_id).select().orderBy('id', 'DESC')
+  knex('links').where('folder_id', req.params.folder_id).select().orderBy('id', 'ASC')
     .then(links => (links.length ? res.status(200).json({
       status: 'success',
       data: links
@@ -71,8 +71,8 @@ app.get('/api/v1/folders/:folder_id/links', (req, res) => {
     .catch(error => res.status(500).json({
       status: 'error',
       data: error
-    }))
-})
+    }));
+});
 
 app.get('/api/v1/links', (req, res) => {
   knex('links').select().orderBy('id', 'DESC')
@@ -83,16 +83,16 @@ app.get('/api/v1/links', (req, res) => {
     .catch(error => res.status(500).json({
       status: 'error',
       data: error
-    }))
-})
+    }));
+});
 
 app.post('/api/v1/links', (req, res) => {
-  const newLink = req.body
+  const newLink = req.body;
   for (const requiredParameter of ['url', 'short_url', 'folder_id']) {
     if (!newLink[requiredParameter]) {
       return res.status(422).json({
         error: `Missing required parameter of ${requiredParameter}`
-      })
+      });
     }
   }
 
@@ -105,8 +105,8 @@ app.post('/api/v1/links', (req, res) => {
     .catch(error => res.status(500).json({
       status: 'error',
       data: error
-    }))
-})
+    }));
+});
 
 app.get('/:short_url', (req, res) => {
   knex('links').where('short_url', req.params.short_url).select('url')
@@ -118,15 +118,15 @@ app.get('/:short_url', (req, res) => {
     .catch(error => res.status(500).json({
       status: 'error',
       data: error
-    }))
-})
+    }));
+});
 
 app.use((req, res, next) => {
-  res.status(404).sendFile(path.join(__dirname, 'public/404.html'))
-})
+  res.status(404).sendFile(path.join(__dirname, 'public/404.html'));
+});
 
 app.listen(app.get('port'), () => {
-  console.log(`${app.locals.title} is running on port ${app.get('port')}`)
-})
+  console.log(`${app.locals.title} is running on port ${app.get('port')}`);
+});
 
-module.exports = app
+module.exports = app;
