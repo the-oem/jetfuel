@@ -151,7 +151,6 @@ describe('Testing API Routes', () => {
       .get('/api/v1/folders/2/links')
       .end((err, res) => {
         should.exist(err);
-        console.log(res.body);
         res.status.should.eql(404);
         res.type.should.eql('application/json');
         res.body.should.include.keys('error');
@@ -205,7 +204,6 @@ describe('Testing API Routes', () => {
       .get('/qwrty')
       .end((err, res) => {
         should.exist(err);
-        console.log(res);
         res.status.should.eql(404);
         res.type.should.eql('application/json');
         res.body.should.include.keys('error');

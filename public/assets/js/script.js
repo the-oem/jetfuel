@@ -60,7 +60,7 @@ const buildFoldersInputSelect = (folders) => {
 }
 
 const addFolderInDom = (folder) => {
-  $('.folder-container').append(`
+  $('.folder-container').prepend(`
     <div class="folder" id="${folder.id}">
       <span class="folder-name">${folder.name}</span>
       <span class="folder-description">${folder.description}</span>
@@ -70,9 +70,10 @@ const addFolderInDom = (folder) => {
 }
 
 const addLinkInDom = (folderId, link) => {
+  const dateAdded = moment(link.created_at).format('MM/DD/YYYY');
   $(`#${folderId}`).find('.folder-links').append(`
-    <div class="link">
-      <a href="${link.short_url}">${link.url}</a>
+    <div class="link" id="${link.id}">
+      <a href="${link.short_url}">http://www.fuelthejets.com/${link.short_url}</a><span>(${dateAdded})</span>
     </div>
   `)
 }
@@ -85,7 +86,6 @@ const loadFoldersInDom = (folders) => {
 }
 
 const loadLinksInDom = (folderId, links) => {
-  console.log(folderId, links);
   $(`#${folderId}`).find('.folder-links').empty();
   if (links) {
     for (let i = 0; i < links.length; i++) {
@@ -124,19 +124,9 @@ const generateShortUrl = () => {
 
 const addLink = () => {
   event.preventDefault();
-  const newLink = new Link(
-    $('#inputLinkUrl').val(),
-    $('#inputLinkFolder').val()
-  );
-  console.log(newLink);
-  if ($('#inputLinkFolder').val() === '') {
-    addErrorMessage('A folder must be selected.', '#urlFolderErrorMessage');
-    return;
-  }
-  if (!checkUrl($('#inputLinkUrl').val())) {
-    addErrorMessage('Must enter a valid URL (including http/https).', '#urlErrorMessage');
-    return;
-  }
+  const newLink = new Link($('#inputLinkUrl').val(), $('#inputLinkFolder').val());
+  if (!checkUrl($('#inputLinkUrl').val())) return addErrorMessage('Must enter a valid URL (including http/https).', '#urlErrorMessage');
+  if ($('#inputLinkFolder').val() === '') return addErrorMessage('A folder must be selected.', '#urlFolderErrorMessage');
   apiAddLink(newLink);
   $linkForm[0].reset();
   clearErrorMessages();
@@ -144,15 +134,9 @@ const addLink = () => {
 
 const addFolder = () => {
   event.preventDefault();
-  const newFolder = new Folder(
-    $('#inputFolderName').val(),
-    $('#inputFolderDesc').val()
-  );
+  const newFolder = new Folder($('#inputFolderName').val(), $('#inputFolderDesc').val());
   const exists = folderArray.find(folder => folder.name.toUpperCase() === $('#inputFolderName').val().toUpperCase());
-  if (exists) {
-    addErrorMessage('A folder with that name already exists', '#folderNameErrorMessage');
-    return;
-  }
+  if (exists) return addErrorMessage('A folder with that name already exists.', '#folderNameErrorMessage');
   apiAddFolder(newFolder);
   $folderForm[0].reset();
   clearErrorMessages();
@@ -169,7 +153,6 @@ const apiAddFolder = (folder) => {
   .then(response => response.json())
   .then(response => {
     folderArray.push(response.data);
-    // addFolderInDom(response.data);
     loadFolders(folderArray);
   })
   .catch(error => console.log(error));
@@ -219,10 +202,6 @@ $addFolderBtn.on('click', () => {
     addFolderVisible = true;
     $addFolderContainer.fadeIn(500);
   }
-  // else {
-  //   addFolderVisible = false;
-  //   $addFolderContainer.fadeOut(500);
-  // }
 });
 $addLinkBtn.on('click', () => {
   if (!addLinkVisible) {
@@ -231,10 +210,6 @@ $addLinkBtn.on('click', () => {
     addLinkVisible = true;
     $addLinkContainer.fadeIn(300);
   }
-  // else {
-  //   addLinkVisible = false;
-  //   $addLinkContainer.fadeOut(300);
-  // }
 });
 $folderForm.on('submit', addFolder);
 $linkForm.on('submit', addLink);

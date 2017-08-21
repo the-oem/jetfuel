@@ -4,12 +4,13 @@
 <head>
   <title>Jet Fuel</title>
   <link rel="stylesheet" type="text/css" href="/assets/css/styles.css">
+  <link href="https://fonts.googleapis.com/css?family=Raleway:200,400" rel="stylesheet">
 </head>
 
 <body>
   <main class="main">
     <div class="header">
-      <h1>Jet Fuel! Fueling all the jets...AGAIN</h1>
+      Jet Fuel!
     </div>
     <div class="btn-container">
       <button class="btn-add-folder">Add Folder</button>
@@ -20,7 +21,7 @@
         <input type="text" value="" placeholder="Folder Name" id="inputFolderName" />
         <span class="error-message" id="folderNameErrorMessage"></span>
         <input type="text" value="" placeholder="Description" id="inputFolderDesc" />
-        <button type="submit">Save</button>
+        <button type="submit" class="btn-save">Save</button>
       </form>
     </div>
     <div class="add-link-container hide" id="addLinkContainer">
@@ -31,7 +32,7 @@
           <option value="">Select Folder</option>
         </select>
         <span class="error-message" id="urlFolderErrorMessage"></span>
-        <button type="submit">Save</button>
+        <button type="submit" class="btn-save">Save</button>
       </form>
     </div>
     <div class="folder-container">
@@ -40,6 +41,7 @@
   </main>
 
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
   <script type="text/javascript" src="/assets/js/script.js"></script>
 </body>
 
