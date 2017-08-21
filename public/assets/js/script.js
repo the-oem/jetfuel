@@ -55,11 +55,11 @@ const sortFolders = folders => folders.sort((a, b) => ((a.name.toUpperCase() > b
 
 const sortLinks = (event) => {
   const sortedDivs = $(event.target).parent().find('.link').sort(function (a, b) {
-    return $(event.target).attr('id') === 'sort-desc'
+    return $(event.target).attr('id') === 'btn-sort-desc'
       ? $(b).attr('id') > $(a).attr('id')
       : $(a).attr('id') > $(b).attr('id');
   });
-  $(event.target).parent().find('#folderLinks').empty().append(sortedDivs);
+  $(event.target).parent().find('#folderLinksContainer').empty().append(sortedDivs);
 };
 
 const buildFoldersInputSelect = (folders) => {
@@ -75,17 +75,19 @@ const addFolderInDom = (folder) => {
     <div class="folder" id="${folder.id}">
       <span class="folder-name">${folder.name}</span>
       <span class="folder-description">${folder.description}</span>
-      <button id="sort-desc">desc</button><button id="sort-asc">asc</button>
-      <div class="folder-links" id="folderLinks"></div>
+      <div class="folder-links" id="folderLinks">
+        <button id="btn-sort-desc"></button><button id="btn-sort-asc"></button>
+        <div class="folder-links-container" id="folderLinksContainer"></div>
+      </div>
     </div>
   `);
 };
 
 const addLinkInDom = (folderId, link) => {
   const dateAdded = moment(link.created_at).format('MM/DD/YYYY');
-  $(`#${folderId}`).find('.folder-links').prepend(`
+  $(`#${folderId}`).find('.folder-links-container').prepend(`
     <div class="link" id="${link.id}">
-      <a href="${link.short_url}">http://www.fuelthejets.com/${link.short_url}</a><span>(${dateAdded})</span>
+      <a href="${link.short_url}">http://www.fuelthejets.com/${link.short_url}</a><span>${dateAdded}</span>
     </div>
   `);
 };
@@ -98,13 +100,14 @@ const loadFoldersInDom = (folders) => {
 };
 
 const loadLinksInDom = (folderId, links) => {
-  $(`#${folderId}`).find('.folder-links').empty();
+  $(`#${folderId}`).find('.folder-links-container').empty();
+
   if (links) {
     for (let i = 0; i < links.length; i++) {
       addLinkInDom(folderId, links[i]);
     }
   } else {
-    $(`#${folderId}`).find('.folder-links').append(`
+    $(`#${folderId}`).find('.folder-links-container').append(`
       <div class="link">
         No saved links in this folder.
       </div>
@@ -195,9 +198,13 @@ const toggleLinks = (event) => {
   if (currentFolder.find('.folder-links').css('display') === 'none') {
     apiGetFolderLinks(folderId)
       .then(response => loadLinksInDom(folderId, response.data));
-    currentFolder.find('.folder-links').fadeIn(1000);
+    currentFolder.find('.folder-links').animate({
+      height: 'toggle'
+    }).fadeIn(2000);
   } else {
-    currentFolder.find('.folder-links').hide();
+    currentFolder.find('.folder-links').animate({
+      height: 'toggle'
+    }).fadeOut(2000);
   }
 };
 
@@ -220,5 +227,5 @@ $addLinkBtn.on('click', () => {
 $folderForm.on('submit', addFolder);
 $linkForm.on('submit', addLink);
 $('.folder-container').on('click', '.folder-name', toggleLinks);
-$('.folder-container').on('click', '#sort-asc', sortLinks);
-$('.folder-container').on('click', '#sort-desc', sortLinks);
+$('.folder-container').on('click', '#btn-sort-asc', sortLinks);
+$('.folder-container').on('click', '#btn-sort-desc', sortLinks);

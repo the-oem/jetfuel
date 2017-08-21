@@ -32,6 +32,10 @@ body {
   justify-content: center;
 }
 
+a {
+  text-decoration: none;
+}
+
 button {
   cursor: pointer;
   outline: none;
@@ -80,12 +84,12 @@ select::-webkit-input-placeholder {
 .header {
   width: 600px;
   height: 70px;
+  padding-right: 65px;
   background-image: url('/assets/img/laptop.svg');
   background-repeat: no-repeat;
   background-position: 68%;
   background-size: 50px;
   font-size: 50px;
-  padding-right: 65px;
 }
 
 .btn-add-folder {
@@ -94,6 +98,27 @@ select::-webkit-input-placeholder {
 
 .btn-add-link {
   background-image: url('/assets/img/unlink.svg');
+}
+
+#btn-sort-desc {
+  background-image: url('/assets/img/chevron-up.svg');
+}
+
+#btn-sort-asc {
+  background-image: url('/assets/img/chevron-down.svg');
+}
+
+#btn-sort-desc,
+#btn-sort-asc {
+  border: none;
+  background-color: transparent;
+  background-position: center;
+  background-size: cover;
+  height: 25px;
+  width: 25px;
+  cursor: pointer;
+  text-align: right;
+  margin: 0 5px;
 }
 
 .btn-save {
@@ -122,7 +147,7 @@ select::-webkit-input-placeholder {
 
 .error-message {
   color: red;
-  font-size: 12px;
+  font-size: 13px;
   font-style: italic;
 }
 
@@ -130,7 +155,7 @@ select::-webkit-input-placeholder {
   display: grid;
   align-items: flex-start;
   justify-content: space-around;
-  width: 800px;
+  width: 860px;
   margin: 20px;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 10px;
@@ -140,7 +165,7 @@ select::-webkit-input-placeholder {
 .folder {
   display: flex;
   flex-direction: column;
-  width: 390px;
+  width: 420px;
   padding: 5px;
   color: #F7F0C3;
   border: 1px solid #67998F;
@@ -150,7 +175,13 @@ select::-webkit-input-placeholder {
 
 .folder-links {
   display: none;
-  background-color: red;
+  margin: 2px;
+  padding: 5px;
+  text-align: right;
+  border-radius: 5px;
+  background-color: #F6F6F6;
+  color: #536767;
+  /*height: 0;*/
 }
 
 .folder-name {
