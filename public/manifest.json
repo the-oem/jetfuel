@@ -1,5 +1,10 @@
 {
   "short_name": "JetFuel",
   "name": "JetFuel, fueling all the jets...",
+  "icons": [{
+    "src": "img/touch/laptop.svg",
+    "type": "image/svg",
+    "sizes": "128x128"
+  }],
   "start_url": "index.html?launcher=true"
 }
